@@ -12,6 +12,8 @@ import withReactContent from "sweetalert2-react-content";
 
 import CountUp from "react-countup";
 
+import Cookies from 'js-cookie'
+
 import _ from "lodash";
 import axios from "axios";
 import moment from "moment";
@@ -30,7 +32,7 @@ export default function Withdraw({ session }) {
 
   const updateDb = async (value) => {
     value = convertValue(value);
-    setMoney(money - value);
+    setMoney(Cookies.get("balance") - value);
 
     MySwal.fire({
       icon: "success",
@@ -167,12 +169,12 @@ export default function Withdraw({ session }) {
             </div>
             <span className="text-2xl font-bold text-center text-white">
               {console.log(session.user.balance / 100)}
-              {console.log(money / 100)}
+              {console.log(Cookies.get("balance") / 100)}
               <CountUp
                 start={session.user.balance / 100}
                 decimal=","
                 decimals="2"
-                end={money / 100}
+                end={Cookies.get("balance") / 100}
                 duration={5}
                 prefix="R$ "
               />
