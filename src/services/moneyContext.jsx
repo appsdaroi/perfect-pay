@@ -13,6 +13,10 @@ const MoneyContextProvider = ({ children }) => {
   const { data: session } = useSession();
   const [money, setMoney] = useState(0);
 
+  useEffect(() => {
+    console.log(money);
+  }, [money]);
+
   const getBalance = async () => {
     const config = {
       headers: {
