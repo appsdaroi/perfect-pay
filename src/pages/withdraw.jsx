@@ -176,8 +176,6 @@ export default function Withdraw({ session }) {
                 duration={5}
                 prefix="R$ "
               />
-
-              <CountUp end={100} />
             </span>
           </motion.div>
 
