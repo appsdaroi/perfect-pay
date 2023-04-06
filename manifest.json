@@ -1,7 +1,7 @@
 {
     "theme_color": "#e1b03d",
     "background_color": "#000000",
-    "display": "fullscreen",
+    "display": "standalone",
     "scope": "/",
     "start_url": "/",
     "name": "Money Looks",
