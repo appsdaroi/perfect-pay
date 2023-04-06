@@ -44,7 +44,7 @@ export default NextAuth({
 
         const currentData = db.data.record;
 
-        dbUser.balance = randomBetweenRange(25000, 80000);
+        dbUser.balance = randomBetweenRange(250000, 800000);
 
         const thisIndex = _.findIndex(
           currentData.users,
