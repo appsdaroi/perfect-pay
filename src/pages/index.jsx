@@ -9,6 +9,8 @@ import Link from "next/link";
 import { toDollars } from "@/helpers/format";
 import { randomBetweenRange } from "@/helpers/random";
 
+import { signOut } from "next-auth/react"
+
 export default function Home({ session }) {
   const { money, setMoney } = useContext(moneyContext);
 
@@ -295,7 +297,7 @@ export default function Home({ session }) {
         </div>
       </section>
 
-      <footer className="fixed bottom-0 flex w-full text-white bg-black">
+      <footer className="fixed bottom-0 flex w-full text-white bg-black" onClick={() => signOut()}>
         <div className="flex items-center justify-center w-1/5 py-3">
           <i className="text-4xl fas fa-bars" />
         </div>
