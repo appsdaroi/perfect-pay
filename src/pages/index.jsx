@@ -1,8 +1,21 @@
+import { useContext, useEffect } from "react";
+
 import { getSession } from "next-auth/react";
+import { moneyContext } from "@/services/moneyContext";
+
 import Image from "next/image";
-import Link from 'next/link'
+import Link from "next/link";
+
+import { toDollars } from "@/helpers/format";
+import { randomBetweenRange } from "@/helpers/random";
 
 export default function Home({ session }) {
+  const { money, setMoney } = useContext(moneyContext);
+
+  useEffect(() => {
+    console.log(money);
+  }, [money]);
+
   return (
     <>
       <nav className="fixed top-0 z-50 flex items-center w-full gap-5 px-3 py-2 font-bold text-white bg-black">
@@ -11,7 +24,7 @@ export default function Home({ session }) {
             <i className="mr-3 text-2xl fa fa-coins text-[#FF69FF]" />
             SALDO
           </div>
-          <span className="text-center">R$ 658,00</span>
+          <span className="text-center">{toDollars(money)}</span>
         </div>
 
         <div className="bg-[#00AC05] flex items-center justify-center gap-1 px-3 py-3 rounded-lg mr-2 animate__pulse">
@@ -50,7 +63,7 @@ export default function Home({ session }) {
             <i className="mr-3 text-2xl fa fa-coins text-[#FF69FF]" />
             SALDO
           </div>
-          <span className="text-center">R$ 658,00</span>
+          <span className="text-center"></span>
         </div>
 
         <div className="bg-[#00AC05] flex items-center justify-center gap-1 px-3 py-3 rounded-lg mr-2 animate__pulse">
@@ -111,6 +124,9 @@ export default function Home({ session }) {
           <div className="grid items-center justify-center grid-cols-2 gap-10 pb-4">
             <a
               href="#2"
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               className="shadow-[-1px_0px_13px_5px_rgba(23.999999999999858,255,0,0.29)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#139A05] border border-[#18FF00] rounded-[5px] px-2.5 py-0.5"
             >
               <i class="far fa-thumbs-up"></i>
@@ -121,6 +137,9 @@ export default function Home({ session }) {
 
             <a
               href="#2"
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               className="shadow-[-1px_0px_13px_5px_rgba(255,0,0,0.38)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#A70202] border border-[#FF0000] rounded-[5px] px-2.5 py-0.5"
             >
               <i class="far fa-thumbs-down"></i>
@@ -152,6 +171,9 @@ export default function Home({ session }) {
 
           <div className="grid items-center justify-center grid-cols-2 gap-10 pb-4">
             <a
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               href="#3"
               className="shadow-[-1px_0px_13px_5px_rgba(23.999999999999858,255,0,0.29)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#139A05] border border-[#18FF00] rounded-[5px] px-2.5 py-0.5"
             >
@@ -162,6 +184,9 @@ export default function Home({ session }) {
             </a>
 
             <a
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               href="#3"
               className="shadow-[-1px_0px_13px_5px_rgba(255,0,0,0.38)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#A70202] border border-[#FF0000] rounded-[5px] px-2.5 py-0.5"
             >
@@ -194,6 +219,9 @@ export default function Home({ session }) {
 
           <div className="grid items-center justify-center grid-cols-2 gap-10 pb-4">
             <a
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               href="#4"
               className="shadow-[-1px_0px_13px_5px_rgba(23.999999999999858,255,0,0.29)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#139A05] border border-[#18FF00] rounded-[5px] px-2.5 py-0.5"
             >
@@ -204,6 +232,9 @@ export default function Home({ session }) {
             </a>
 
             <a
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               href="#4"
               className="shadow-[-1px_0px_13px_5px_rgba(255,0,0,0.38)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#A70202] border border-[#FF0000] rounded-[5px] px-2.5 py-0.5"
             >
@@ -236,6 +267,9 @@ export default function Home({ session }) {
 
           <div className="grid items-center justify-center grid-cols-2 gap-10 pb-4">
             <Link
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               href="/progress"
               className="shadow-[-1px_0px_13px_5px_rgba(23.999999999999858,255,0,0.29)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#139A05] border border-[#18FF00] rounded-[5px] px-2.5 py-0.5"
             >
@@ -246,6 +280,9 @@ export default function Home({ session }) {
             </Link>
 
             <Link
+              onClick={() =>
+                setMoney(money + parseInt(`1${randomBetweenRange(10, 99)}`))
+              }
               href="/progress"
               className="shadow-[-1px_0px_13px_5px_rgba(255,0,0,0.38)] hover:scale-90 transition-transform flex items-center justify-center gap-2 text-white bg-[#A70202] border border-[#FF0000] rounded-[5px] px-2.5 py-0.5"
             >
@@ -270,7 +307,6 @@ export default function Home({ session }) {
         </div>
       </footer>
 
-      
       <div className="flex invisible w-full text-white bg-black">
         <div className="flex items-center justify-center w-1/5 py-3">
           <i className="text-4xl fas fa-bars" />

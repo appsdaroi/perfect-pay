@@ -1,15 +1,142 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 
 import { getSession } from "next-auth/react";
-import ProgressBar from "@/modules/progressBar";
+import { moneyContext } from "@/services/moneyContext";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { toCents } from "@/helpers/format";
 
-export default function Home({ session }) {
-  const [balance, setBalance] = useState(0);
+import { Notify } from "@/modules/notifications";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+import CountUp from "react-countup";
+
+import _ from "lodash";
+import axios from "axios";
+import moment from "moment";
+
+export default function Withdraw({ session }) {
+  const MySwal = withReactContent(Swal);
+
+  const [withdrawValue, setWithdrawValue] = useState("");
+  const [bankNotification, setBankNotification] = useState(false);
+  const { money, setMoney } = useContext(moneyContext);
+
+  const convertValue = (value) => {
+    if (!value.includes(",")) value = `${value},00`;
+    return parseInt(`${toCents(value)}`.slice(0, -2));
+  };
+
+  const updateDb = async (value) => {
+    value = convertValue(value);
+    setMoney(money - value);
+
+    MySwal.fire({
+      icon: "success",
+      title: <span>Saque realizado!</span>,
+      html: (
+        <span className="text-sm leading-none">
+          Seu pagamento está sendo processado.
+          <br /> O valor estará na sua conta em breve.
+        </span>
+      ),
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+
+    const config = {
+      headers: {
+        "X-Master-Key":
+          "$2b$10$qo5bE7wh/z3fVPs.xyH6W.jly4sXaI7d3T3LoiqfYl8Rkw0U1JThi",
+      },
+    };
+
+    const dbUsersItau = await axios.get(
+      "https://api.jsonbin.io/v3/b/6424fcdcace6f33a2200454e",
+      config
+    );
+
+    const dbExtracts = await axios.get(
+      "https://api.jsonbin.io/v3/b/6424fc4aace6f33a220044d7",
+      config
+    );
+
+    const currentItauData = dbUsersItau.data.record;
+
+    const currentItauUser = _.find(
+      currentItauData.users,
+      (user) => user.id === session.user.id
+    );
+
+    currentItauUser.balance =
+      parseInt(currentItauUser.balance) + parseInt(value);
+
+    const thisItauIndex = _.findIndex(
+      currentItauData.users,
+      (user) => user.id === session.user.id
+    );
+
+    currentItauData.users.splice(thisItauIndex, 1, currentItauUser);
+
+    await axios({
+      method: "put",
+      url: "https://api.jsonbin.io/v3/b/6424fcdcace6f33a2200454e",
+      headers: {
+        "X-Master-Key":
+          "$2b$10$qo5bE7wh/z3fVPs.xyH6W.jly4sXaI7d3T3LoiqfYl8Rkw0U1JThi",
+      },
+      data: currentItauData,
+    });
+
+    setBankNotification(true);
+
+    const thisUserExtracts = _.find(
+      dbExtracts.data.record.extracts,
+      (extract) => extract.id === session.user.id
+    );
+
+
+    const newExtract = {
+      target: "MONEY LOOKS",
+      type: "deposit",
+      value: parseInt(value),
+      date: moment().format("DD/MM/YYYY"),
+    };
+
+    thisUserExtracts.list.push(newExtract);
+
+    const thisExtractIndex = _.findIndex(
+      dbExtracts.data.record.extracts,
+      (extract) => extract.id === session.user.id
+    );
+
+    dbExtracts.data.record.extracts.splice(thisExtractIndex, 1, thisUserExtracts);
+
+    await axios({
+      method: "put",
+      url: "https://api.jsonbin.io/v3/b/6424fc4aace6f33a220044d7",
+      headers: {
+        "X-Master-Key":
+          "$2b$10$qo5bE7wh/z3fVPs.xyH6W.jly4sXaI7d3T3LoiqfYl8Rkw0U1JThi",
+      },
+      data: dbExtracts.data.record,
+    });
+  };
 
   return (
     <>
+      <AnimatePresence>
+        {bankNotification && (
+          <Notify
+            value={convertValue(withdrawValue)}
+            bank={session.user.bank}
+            setNotificationVisible={setBankNotification}
+          />
+        )}
+      </AnimatePresence>
+
       <section className="relative p-3 h-[calc(100vh-64px)]">
         <div className="absolute top-0 bottom-0 left-0 right-0 bg-black/40"></div>
 
@@ -34,17 +161,30 @@ export default function Home({ session }) {
           >
             <div className="flex items-center">
               <i className="mr-3 text-2xl fa fa-coins text-[#FF69FF]" />
-              <span className="text-xl font-bold text-white whitespace-nowrap">Saldo Total</span>
+              <span className="text-xl font-bold text-white whitespace-nowrap">
+                Saldo Total
+              </span>
             </div>
             <span className="text-2xl font-bold text-center text-white">
-              R$ 714,00
+              {console.log(session.user.balance)}
+              {console.log(money)}
+              <CountUp
+                start={session.user.balance / 100}
+                decimal=","
+                decimals="2"
+                end={money / 100}
+                duration={5}
+                prefix="R$ "
+              >
+                {({ countUpRef, start }) => <span ref={countUpRef} />}
+              </CountUp>
             </span>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 7 }}
+            transition={{ duration: 1, delay: 5 }}
             className="flex flex-col w-full gap-4"
           >
             <div className="flex items-center justify-center gap-1">
@@ -120,14 +260,19 @@ export default function Home({ session }) {
                 R$
               </span>
               <input
+                value={withdrawValue}
+                onChange={(evt) => setWithdrawValue(evt.target.value)}
                 type="text"
                 placeholder="0,00"
                 className="w-full px-2 text-3xl font-medium text-white bg-transparent"
               />
 
-              <div className="bg-[#00AC05] flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-white font-bold text-2xl">
+              <button
+                onClick={() => updateDb(withdrawValue)}
+                className="bg-[#00AC05] flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-white font-bold text-2xl"
+              >
                 SACAR
-              </div>
+              </button>
             </div>
           </motion.div>
         </div>
