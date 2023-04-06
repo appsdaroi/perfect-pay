@@ -11,7 +11,7 @@ const moneyContext = createContext({
 
 const MoneyContextProvider = ({ children }) => {
   const { data: session } = useSession();
-  const [money, setMoney] = useState(session.user.balance);
+  const [money, setMoney] = useState(0);
 
   const getBalance = async () => {
     const config = {

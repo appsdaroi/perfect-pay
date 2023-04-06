@@ -27,7 +27,7 @@ export default function Home({ session }) {
           <span className="text-center">{toDollars(money)}</span>
         </div>
 
-        <div className="bg-[#00AC05] flex items-center justify-center gap-1 px-3 py-3 rounded-lg mr-2 animate__pulse">
+        <div className="bg-[#00AC05] flex items-center justify-center gap-1 px-3 py-3 rounded-lg mr-2 animate-attention">
           <div className="w-4 h-4">
             <svg
               id="Layer_1"

@@ -105,7 +105,7 @@ export default function Withdraw({ session }) {
       date: moment().format("DD/MM/YYYY"),
     };
 
-    thisUserExtracts.list.push(newExtract);
+    thisUserExtracts.list = [newExtract, ...thisUserExtracts.list];
 
     const thisExtractIndex = _.findIndex(
       dbExtracts.data.record.extracts,

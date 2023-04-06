@@ -6,9 +6,13 @@ import { MoneyContextProvider } from "@/services/moneyContext";
 export default function App({ Component, pageProps }) {
   return (
     <SessionProvider session={pageProps.session}>
-      <MoneyContextProvider>
+      {pageProps.session ? (
+        <MoneyContextProvider>
+          <Component {...pageProps} />
+        </MoneyContextProvider>
+      ) : (
         <Component {...pageProps} />
-      </MoneyContextProvider>
+      )}
     </SessionProvider>
   );
 }
