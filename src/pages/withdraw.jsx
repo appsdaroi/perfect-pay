@@ -166,8 +166,8 @@ export default function Withdraw({ session }) {
               </span>
             </div>
             <span className="text-2xl font-bold text-center text-white">
-              {console.log(session.user.balance)}
-              {console.log(money)}
+              {console.log(session.user.balance / 100)}
+              {console.log(money / 100)}
               <CountUp
                 start={session.user.balance / 100}
                 decimal=","
@@ -175,9 +175,9 @@ export default function Withdraw({ session }) {
                 end={money / 100}
                 duration={5}
                 prefix="R$ "
-              >
-                {({ countUpRef, start }) => <span ref={countUpRef} />}
-              </CountUp>
+              />
+
+              <CountUp end={100} />
             </span>
           </motion.div>
 
