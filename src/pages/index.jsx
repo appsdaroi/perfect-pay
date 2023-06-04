@@ -138,7 +138,7 @@ export default function Home({ session }) {
         <Image src="/icons/GEAR.svg" width={28} height={28} />
       </footer>
 
-      <footer style={{ background: "linear-gradient(180deg, rgba(13,155,162,0.1) 0%, rgba(13,155,162,0.05) 30%)" }} className="fixed bottom-0 flex items-center justify-center w-full gap-24 pt-8 border-t border-t-primary/10 pb-14 bg-primary/10">
+      <footer className="fixed bottom-0 flex items-center justify-center w-full gap-24 pt-8 border-t border-t-primary/10 pb-14 bg-[#111111] before:top-0 before:absolute before:left-0 before:right-0 before:h-full before:z-[-1] z-[9999]">
         <Image src="/icons/DASHBOARD.svg" width={28} height={28} />
         <Image src="/icons/STATISTICS.svg" width={28} height={28} />
         <Image src="/icons/GEAR.svg" width={28} height={28} />
