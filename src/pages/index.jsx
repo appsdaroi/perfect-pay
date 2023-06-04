@@ -11,7 +11,7 @@ export default function Home({ session }) {
 
   return (
     <div className="flex flex-col w-screen h-screen">
-      <nav onClick={() => signOut()} className="bg-[#111111] border-b border-b-primary/10 p-5 flex gap-5 fixed top-0 w-full">
+      <nav onClick={() => signOut()} className="bg-[#111111] border-b border-b-primary/10 p-5 flex gap-5 fixed top-0 w-full z-[9999]">
         <div className="flex-1">
           <h1 className="text-xl text-white">
             <span>Olá, </span>
