@@ -11,7 +11,7 @@ export default function Home({ session }) {
 
   return (
     <div className="flex flex-col w-screen h-screen">
-      <nav onClick={() => signOut()} className="bg-[#111111] border-b border-b-primary/10 p-5 flex gap-5">
+      <nav onClick={() => signOut()} className="bg-[#111111] border-b border-b-primary/10 p-5 flex gap-5 fixed top-0 w-full">
         <div className="flex-1">
           <h1 className="text-xl text-white">
             <span>Olá, </span>
@@ -31,7 +31,27 @@ export default function Home({ session }) {
         </button>
       </nav>
 
-      <div className="flex flex-col flex-1 p-4 gap-7">
+      <nav className="bg-[#111111] border-b border-b-primary/10 p-5 flex gap-5 invisible">
+        <div className="flex-1">
+          <h1 className="text-xl text-white">
+            <span>Olá, </span>
+            <span className="font-bold">Lucas Camargo</span>
+          </h1>
+          <span className="text-[0.85rem] text-primary font-medium">
+            #TeamPerfectBlack
+          </span>
+        </div>
+
+        <button className="p-3 border-2 rounded-full">
+          <Image src="/icons/BELL.svg" width={22} height={22} />
+        </button>
+
+        <button>
+          <Image src="/icons/MENU.svg" width={33} height={33} />
+        </button>
+      </nav>
+
+      <div className="flex flex-col flex-1 p-4 bg-black gap-7">
         <div className="bg-[#353b3b] w-full flex flex-col rounded-lg p-6 gap-2">
           <div className="flex items-center justify-between pt-3 text-white">
             <span className="text-lg opacity-60">Saldo total</span>
@@ -112,7 +132,13 @@ export default function Home({ session }) {
         </div>
       </div>
 
-      <footer style={{ background: "linear-gradient(180deg, rgba(13,155,162,0.1) 0%, rgba(13,155,162,0.05) 30%)" }} className="flex items-center justify-center gap-24 pt-8 border-t border-t-primary/10 pb-14 bg-primary/10">
+      <footer className="flex items-center justify-center invisible gap-24 pt-8 border-t border-t-primary/10 pb-14 bg-primary/10">
+        <Image src="/icons/DASHBOARD.svg" width={28} height={28} />
+        <Image src="/icons/STATISTICS.svg" width={28} height={28} />
+        <Image src="/icons/GEAR.svg" width={28} height={28} />
+      </footer>
+
+      <footer style={{ background: "linear-gradient(180deg, rgba(13,155,162,0.1) 0%, rgba(13,155,162,0.05) 30%)" }} className="fixed bottom-0 flex items-center justify-center w-full gap-24 pt-8 border-t border-t-primary/10 pb-14 bg-primary/10">
         <Image src="/icons/DASHBOARD.svg" width={28} height={28} />
         <Image src="/icons/STATISTICS.svg" width={28} height={28} />
         <Image src="/icons/GEAR.svg" width={28} height={28} />
