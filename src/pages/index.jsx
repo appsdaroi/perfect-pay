@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
+import { CentsToReais } from "../helpers/money";
+
+import Link from "next/link";
 import Image from "next/image";
 
-export default function Home({ session }) {
+import moment from "moment";
+import "moment/locale/pt-br";
+
+export default function Home({ session, profileState }) {
+  const { update } = useSession();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log(session);
+    update();
 
     setTimeout(() => {
       setLoading(false);
     }, 3000);
   }, []);
+
+  moment.locale("pt-br");
 
   return (
     <div className="flex flex-col w-screen h-screen">
@@ -24,7 +34,7 @@ export default function Home({ session }) {
         <div className="flex-1 mt-auto">
           <h1 className="leading-none text-white">
             <span>Olá, </span>
-            <span className="font-bold">Lucas Camargo</span>
+            <span className="font-bold">{session.user.name}</span>
           </h1>
           <span className="text-[0.66rem] font-medium text-primary">
             #TeamPerfectBlack
@@ -79,7 +89,7 @@ export default function Home({ session }) {
             <div className="h-8 rounded w-36 bg-primary/10 loading-skeleton"></div>
           ) : (
             <h1 className="text-[1.8rem] font-extrabold text-white">
-              -R$ 2.182,20
+              {CentsToReais(session.user.balance)}
             </h1>
           )}
 
@@ -92,7 +102,7 @@ export default function Home({ session }) {
                 <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
               ) : (
                 <h2 className="-mt-1 text-sm font-semibold tracking-tight">
-                  -R$ 3.055,01
+                  {CentsToReais(session.user.balance * 0.7346)}
                 </h2>
               )}
             </div>
@@ -112,7 +122,7 @@ export default function Home({ session }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">R$ 0,00</span>
+              <span className="font-bold">{CentsToReais(session.user.balance * 0.5892)}</span>
             )}
           </div>
 
@@ -121,7 +131,7 @@ export default function Home({ session }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">R$ 0,00</span>
+              <span className="font-bold">{CentsToReais(session.user.balance * 0.8238)}</span>
             )}
           </div>
 
@@ -130,7 +140,7 @@ export default function Home({ session }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">R$ 0,00</span>
+              <span className="font-bold">{CentsToReais(session.user.balance * 1.2384)}</span>
             )}
           </div>
 
@@ -139,7 +149,7 @@ export default function Home({ session }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">R$ 7.905,13</span>
+              <span className="font-bold">{CentsToReais(session.user.balance * 1.4871)}</span>
             )}
           </div>
         </div>
@@ -152,7 +162,9 @@ export default function Home({ session }) {
         ) : (
           <div className="flex items-center justify-between text-white">
             <div>
-              <h3 className="font-semibold leading-none">Junho</h3>
+              <h3 className="font-semibold leading-none capitalize">
+                {moment().format("MMMM")}
+              </h3>
               <span className="text-xs">Receita</span>
             </div>
 
@@ -174,13 +186,17 @@ export default function Home({ session }) {
       <footer className="flex items-center justify-center invisible gap-24 pt-8 border-t border-t-primary/10 pb-14 bg-primary/10">
         <Image src="/icons/DASHBOARD.svg" width={28} height={28} />
         <Image src="/icons/STATISTICS.svg" width={28} height={28} />
-        <Image src="/icons/GEAR.svg" width={28} height={28} />
+        <Link href="/configs">
+          <Image src="/icons/GEAR.svg" width={28} height={28} />
+        </Link>
       </footer>
 
       <footer className="fixed bottom-0 flex items-center justify-center w-full gap-24 pt-8 border-t border-t-primary/10 pb-14 bg-[#060606] before:top-0 before:absolute before:left-0 before:right-0 before:h-full before:z-[-1] z-[9999]">
         <Image src="/icons/DASHBOARD.svg" width={28} height={28} />
         <Image src="/icons/STATISTICS.svg" width={28} height={28} />
-        <Image src="/icons/GEAR.svg" width={28} height={28} />
+        <Link href="/configs">
+          <Image src="/icons/GEAR.svg" width={28} height={28} />
+        </Link>
       </footer>
     </div>
   );

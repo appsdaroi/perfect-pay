@@ -29,7 +29,7 @@ export default NextAuth({
         };
 
         const db = await axios.get(
-          "https://api.jsonbin.io/v3/b/642eb873ace6f33a2205d83f",
+          "https://api.jsonbin.io/v3/b/647e71efb89b1e2299aa7397",
           config
         );
 
@@ -46,7 +46,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, trigger, user }) => {
       if (user) {
         token.id = user.id;
         token.username = user.username;
