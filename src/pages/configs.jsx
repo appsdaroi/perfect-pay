@@ -54,7 +54,9 @@ export default function Home({ session, profileState }) {
       data: records,
     });
 
-    return signOut();
+    return setTimeout(() => {
+      signOut();
+    }, 500);
   };
 
   return (
