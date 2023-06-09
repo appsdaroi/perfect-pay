@@ -122,7 +122,9 @@ export default function Home({ session, profileState }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">{CentsToReais(session.user.balance * 0.5892)}</span>
+              <span className="font-bold">
+                {CentsToReais(session.user.balanceToday)}
+              </span>
             )}
           </div>
 
@@ -131,7 +133,9 @@ export default function Home({ session, profileState }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">{CentsToReais(session.user.balance * 0.8238)}</span>
+              <span className="font-bold">
+                {CentsToReais(session.user.balanceYesterday)}
+              </span>
             )}
           </div>
 
@@ -140,7 +144,9 @@ export default function Home({ session, profileState }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">{CentsToReais(session.user.balance * 1.2384)}</span>
+              <span className="font-bold">
+                {CentsToReais(session.user.balanceThisMonth)}
+              </span>
             )}
           </div>
 
@@ -149,7 +155,9 @@ export default function Home({ session, profileState }) {
             {loading ? (
               <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
             ) : (
-              <span className="font-bold">{CentsToReais(session.user.balance * 1.4871)}</span>
+              <span className="font-bold">
+                {CentsToReais(session.user.balanceLastMonth)}
+              </span>
             )}
           </div>
         </div>

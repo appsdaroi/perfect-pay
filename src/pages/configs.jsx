@@ -16,6 +16,10 @@ export default function Home({ session, profileState }) {
 
     const name = evt.target.name.value;
     const balance = evt.target.balance.value;
+    const balanceToday = evt.target.balanceToday.value;
+    const balanceYesterday = evt.target.balanceYesterday.value;
+    const balanceThisMonth = evt.target.balanceThisMonth.value;
+    const balanceLastMonth = evt.target.balanceLastMonth.value;
 
     if (!name || !balance) return setSaving(false);
 
@@ -41,6 +45,10 @@ export default function Home({ session, profileState }) {
     const thisUser = records.users[thisIndex];
     thisUser.name = name;
     thisUser.balance = ReaisToCents(balance);
+    thisUser.balanceToday = ReaisToCents(balanceToday);
+    thisUser.balanceYesterday = ReaisToCents(balanceYesterday);
+    thisUser.balanceThisMonth = ReaisToCents(balanceThisMonth);
+    thisUser.balanceLastMonth = ReaisToCents(balanceLastMonth);
 
     records.users.splice(thisIndex, 1, thisUser);
 
@@ -76,10 +84,33 @@ export default function Home({ session, profileState }) {
           className="p-3 text-white bg-transparent border rounded"
         />
 
-        <span className="text-xs text-center text-white opacity-50">
-          Os outros dados, como histórico de saldo e saldo disponível são
-          calculados automaticamente.
-        </span>
+        <input
+          placeholder="Digite o saldo Hoje..."
+          type="number"
+          name="balanceToday"
+          className="p-3 text-white bg-transparent border rounded"
+        />
+
+        <input
+          placeholder="Digite o saldo Ontem..."
+          type="number"
+          name="balanceYesterday"
+          className="p-3 text-white bg-transparent border rounded"
+        />
+
+        <input
+          placeholder="Digite o saldo Esse mês..."
+          type="number"
+          name="balanceThisMonth"
+          className="p-3 text-white bg-transparent border rounded"
+        />
+
+        <input
+          placeholder="Digite o saldo Esse mês..."
+          type="number"
+          name="balanceLastMonth"
+          className="p-3 text-white bg-transparent border rounded"
+        />
 
         <button
           type="submit"
