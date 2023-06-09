@@ -20,6 +20,7 @@ export default function Home({ session, profileState }) {
     const balanceYesterday = evt.target.balanceYesterday.value;
     const balanceThisMonth = evt.target.balanceThisMonth.value;
     const balanceLastMonth = evt.target.balanceLastMonth.value;
+    const availableBalance = evt.target.availableBalance.value;
 
     if (!name || !balance) return setSaving(false);
 
@@ -49,6 +50,7 @@ export default function Home({ session, profileState }) {
     thisUser.balanceYesterday = ReaisToCents(balanceYesterday);
     thisUser.balanceThisMonth = ReaisToCents(balanceThisMonth);
     thisUser.balanceLastMonth = ReaisToCents(balanceLastMonth);
+    thisUser.availableBalance = ReaisToCents(availableBalance);
 
     records.users.splice(thisIndex, 1, thisUser);
 
@@ -81,6 +83,13 @@ export default function Home({ session, profileState }) {
           placeholder="Digite o saldo..."
           type="number"
           name="balance"
+          className="p-3 text-white bg-transparent border rounded"
+        />
+
+        <input
+          placeholder="Digite o saldo disponível..."
+          type="number"
+          name="availableBalance"
           className="p-3 text-white bg-transparent border rounded"
         />
 

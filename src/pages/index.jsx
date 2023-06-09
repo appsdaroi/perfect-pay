@@ -102,7 +102,7 @@ export default function Home({ session, profileState }) {
                 <div className="w-20 h-6 rounded bg-primary/10 loading-skeleton"></div>
               ) : (
                 <h2 className="-mt-1 text-sm font-semibold tracking-tight">
-                  {CentsToReais(session.user.balance * 0.7346)}
+                  {CentsToReais(session.user.availableBalance)}
                 </h2>
               )}
             </div>
